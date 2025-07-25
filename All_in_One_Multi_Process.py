@@ -5,8 +5,8 @@ import multiprocessing
 import time
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
-ir_dir = os.path.join(os.getcwd(), 'datasets.llvip/test_imgs/ir')
-vi_dir = os.path.join(os.getcwd(), 'datasets.llvip/test_imgs/vi')
+ir_dir = os.path.join(os.getcwd(), 'datasets/test_imgs/ir')
+vi_dir = os.path.join(os.getcwd(), 'datasets/test_imgs/vi')
 
 model_path_dict = dict()
 model_path_dict_1 = dict()

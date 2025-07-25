@@ -8,7 +8,7 @@ from os.path import join, exists, splitext
 from networks import Encoder, Classification, Decoder
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
-samples = 10
+samples = 1  # 最小样本数量以最大程度减少内存使用
 
 def generate(ir_path, vis_path, model_path_EC, model_path_ED, output_path = None):
 	ir_img = (imread(ir_path, flatten=True, mode='YCbCr') / 255.0 - 0.5) * 2

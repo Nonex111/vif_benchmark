@@ -9,6 +9,7 @@ import torch.nn.functional as F
 from PIL import Image
 import torchvision.transforms.functional as TF
 from time import time
+import os
 def randflow(img,angle=7,trans=0.07,ratio=1,sigma=15,base=500):
     h,w=img.shape[2],img.shape[3]
     # affine
@@ -52,31 +53,33 @@ def randflow(img,angle=7,trans=0.07,ratio=1,sigma=15,base=500):
 # for i in a.keys():
 #     print(i)
 
-img = Image.open("/data1/timer/JAS/datasets/VIS_IR/ir/0.png")
-img = TF.to_tensor(img).unsqueeze(0)
+# 将测试代码放在if __name__ == "__main__"块中，避免在导入模块时执行
+if __name__ == "__main__":
+    img = Image.open(os.path.join(os.getcwd(), "datasets/test_imgs/ir/00537D.png"))
+    img = TF.to_tensor(img).unsqueeze(0)
 
-h,w = img.shape[2],img.shape[3]
-flow,disp,mask = randflow(img)
-# flow,disp2,mask = randflow(img)
-# grid = KU.create_meshgrid(h,w)
-#img_warped = F.grid_sample(img,flow,mode='bilinear',align_corners=False)
-# img_warped1 = F.grid_sample(img_warped0,grid+disp2,mode='bilinear',align_corners=False)
-# img_warped3 = F.grid_sample(img,grid+disp2+disp1,mode='bilinear',align_corners=False)
+    h,w = img.shape[2],img.shape[3]
+    flow,disp,mask = randflow(img)
+    # flow,disp2,mask = randflow(img)
+    # grid = KU.create_meshgrid(h,w)
+    #img_warped = F.grid_sample(img,flow,mode='bilinear',align_corners=False)
+    # img_warped1 = F.grid_sample(img_warped0,grid+disp2,mode='bilinear',align_corners=False)
+    # img_warped3 = F.grid_sample(img,grid+disp2+disp1,mode='bilinear',align_corners=False)
 
-# img = F.interpolate(img,scale_factor=2)
-#disp = F.interpolate(disp.permute(0,3,1,2),scale_factor=2).permute(0,2,3,1)
-grid = KU.create_meshgrid(h,w)
-img_warped = F.grid_sample(img,grid+disp,mode='bilinear',align_corners=False)
-#img_warped2 = F.interpolate(img_warped2,scale_factor=0.5)
-crop_size=128
-shift = 15
-img_warped_crop = img_warped[:,:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift]
+    # img = F.interpolate(img,scale_factor=2)
+    #disp = F.interpolate(disp.permute(0,3,1,2),scale_factor=2).permute(0,2,3,1)
+    grid = KU.create_meshgrid(h,w)
+    img_warped = F.grid_sample(img,grid+disp,mode='bilinear',align_corners=False)
+    #img_warped2 = F.interpolate(img_warped2,scale_factor=0.5)
+    crop_size=128
+    shift = 15
+    img_warped_crop = img_warped[:,:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift]
 
-scale = (torch.FloatTensor([w,h]).unsqueeze(0).unsqueeze(0).unsqueeze(0)-1)/(crop_size-1)/2
-disp_crop = disp[:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift,:]*scale
-img_crop = img[:,:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift]
-flow_crop = KU.create_meshgrid(crop_size*2,crop_size*2).to(img.device)+disp_crop
-img_warped1 = F.grid_sample(img_crop,flow_crop)#trans(img_crop.cuda(),disp_crop.cuda())
+    scale = (torch.FloatTensor([w,h]).unsqueeze(0).unsqueeze(0).unsqueeze(0)-1)/(crop_size-1)/2
+    disp_crop = disp[:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift,:]*scale
+    img_crop = img[:,:,h//2-crop_size+shift:h//2+crop_size+shift,w//2-crop_size+shift:w//2+crop_size+shift]
+    flow_crop = KU.create_meshgrid(crop_size*2,crop_size*2).to(img.device)+disp_crop
+    img_warped1 = F.grid_sample(img_crop,flow_crop)#trans(img_crop.cuda(),disp_crop.cuda())
 #img_rewarped = F.grid_sample(img_warped,Invertdisp(disp,flow)[1],mode='bilinear',align_corners=False)
 
 # 
