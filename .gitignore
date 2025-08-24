@@ -11,18 +11,31 @@
 *.ico
 *.raw
 
-# But keep images in datasets and Demo folders
-!datasets/**/*.jpg
-!datasets/**/*.jpeg
-!datasets/**/*.png
-!datasets/**/*.gif
-!datasets/**/*.bmp
-!datasets/**/*.tiff
-!datasets/**/*.tif
-!datasets/**/*.webp
-!datasets/**/*.svg
-!datasets/**/*.ico
-!datasets/**/*.raw
+# But keep specific images in datasets and Demo folders
+# Only keep images in M3FD_Fusion and test_imgs folders within datasets
+!datasets/M3FD_Fusion/**/*.jpg
+!datasets/M3FD_Fusion/**/*.jpeg
+!datasets/M3FD_Fusion/**/*.png
+!datasets/M3FD_Fusion/**/*.gif
+!datasets/M3FD_Fusion/**/*.bmp
+!datasets/M3FD_Fusion/**/*.tiff
+!datasets/M3FD_Fusion/**/*.tif
+!datasets/M3FD_Fusion/**/*.webp
+!datasets/M3FD_Fusion/**/*.svg
+!datasets/M3FD_Fusion/**/*.ico
+!datasets/M3FD_Fusion/**/*.raw
+
+!datasets/test_imgs/**/*.jpg
+!datasets/test_imgs/**/*.jpeg
+!datasets/test_imgs/**/*.png
+!datasets/test_imgs/**/*.gif
+!datasets/test_imgs/**/*.bmp
+!datasets/test_imgs/**/*.tiff
+!datasets/test_imgs/**/*.tif
+!datasets/test_imgs/**/*.webp
+!datasets/test_imgs/**/*.svg
+!datasets/test_imgs/**/*.ico
+!datasets/test_imgs/**/*.raw
 
 !Demo/**/*.jpg
 !Demo/**/*.jpeg

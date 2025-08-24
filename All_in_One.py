@@ -3,8 +3,9 @@ from tqdm import tqdm
 import sys
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 
-ir_dir = os.path.join(os.getcwd(), 'datasets/test_imgs/ir')
-vi_dir = os.path.join(os.getcwd(), 'datasets/test_imgs/vi')
+datasets = ['test_imgs']
+ir_dir = os.path.join(os.getcwd(), 'datasets/'+datasets[0]+'/ir')  # 红外图像目录
+vi_dir = os.path.join(os.getcwd(), 'datasets/'+datasets[0]+'/vi')  # 可见光图像目录
 
 model_path_dict = dict()
 model_path_dict_1 = dict()
@@ -13,8 +14,6 @@ model_path_dict_2 = dict()
 model_path_dict_1['CSF'] = os.path.join(os.getcwd(), 'Checkpoint/CSF/EC.ckpt')
 model_path_dict_2['CSF'] = os.path.join(os.getcwd(), 'Checkpoint/CSF/ED.ckpt')
 
-model_path_dict_1['CUFD'] = os.path.join(os.getcwd(), 'Checkpoint/CUFD/1part1_model.ckpt')
-model_path_dict_2['CUFD'] = os.path.join(os.getcwd(), 'Checkpoint/CUFD/part2_model.ckpt')
 
 model_path_dict_1['DIDFuse'] = os.path.join(os.getcwd(), 'Checkpoint/DIDFuse/Encoder.pkl')
 model_path_dict_2['DIDFuse'] = os.path.join(os.getcwd(), 'Checkpoint/DIDFuse/Decoder.pkl')
@@ -57,7 +56,7 @@ model_path_dict['IFCNN'] = os.path.join(os.getcwd(), 'Checkpoint/IFCNN/IFCNN-MAX
 
 model_path_dict['UMF-CMGR'] = os.path.join(os.getcwd(), 'Checkpoint/UMF-CMGR/UMF_CMGR.pth')
 
-Method_list = ['CSF', 'CUFD', 'DIDFuse', 'DIVFusion', 'DenseFuse', 
+Method_list = ['CSF',  'DIDFuse', 'DIVFusion', 'DenseFuse', 
                'FusionGAN', 'GAN-FM', 'GANMcC', 'IFCNN', 'NestFuse', 
                'PIAFusion', 'PMGI', 'RFN-Nest', 'SDNet', 'STDFusionNet', 
                'SeAFusion', 'SuperFusion', 'SwinFusion', 'TarDAL', 'U2Fusion', 
@@ -66,7 +65,7 @@ print(len(Method_list))
 two_model_list =['CSF', 'CUFD', 'DIDFuse', 'DIVFusion', 'RFN-Nest'] 
 
 for Method in Method_list:    
-    save_dir = os.path.join(os.getcwd(), 'Results/', Method)
+    save_dir = os.path.join(os.getcwd(), 'Results/'+datasets[0]+'/', Method)
     if Method not in two_model_list:
         with open('script.sh', 'w') as f:
             f.write('#!/bin/bash\n')
